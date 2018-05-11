@@ -32,21 +32,21 @@ router.post('/invite', function(req, res) {
           if (body.ok) {
             res.render('result', {
               community: config.community,
-              message: 'Success! Check &ldquo;'+ req.body.email +'&rdquo; for an invite from Slack.'
+              message: 'Feito! Entre no email &ldquo;'+ req.body.email +'&rdquo; para pegar seu convite.'
             });
           } else {
             let error = body.error;
             if (error === 'already_invited' || error === 'already_in_team') {
               res.render('result', {
                 community: config.community,
-                message: 'Success! You were already invited.<br>' +
-                        'Visit <a href="https://'+ config.slackUrl +'">'+ config.community +'</a>'
+                message: 'Feito! Você já foi convidado.<br>' +
+                        'Visite <a href="https://'+ config.slackUrl +'">'+ config.community +'</a>'
               });
               return;
             } else if (error === 'invalid_email') {
-              error = 'The email you entered is an invalid email.';
+              error = 'O email que você inseriu é um email inválido.';
             } else if (error === 'invalid_auth') {
-              error = 'Something has gone wrong. Please contact a system administrator.';
+              error = 'Algo deu errado. Por favor entre em contato com um administrador do sistema.';
             }
 
             res.render('result', {
@@ -86,22 +86,22 @@ router.post('/invite', function(req, res) {
   } else {
     const errMsg = [];
     if (!req.body.email) {
-      errMsg.push('your email is required');
+      errMsg.push('seu email é obrigatório');
     }
 
     if (!!config.inviteToken) {
       if (!req.body.token) {
-        errMsg.push('valid token is required');
+        errMsg.push('token válido é obrigatório');
       }
 
       if (req.body.token && req.body.token !== config.inviteToken) {
-        errMsg.push('the token you entered is wrong');
+        errMsg.push('o token que você inseriu é inválido');
       }
     }
 
     res.render('result', {
       community: config.community,
-      message: 'Failed! ' + errMsg.join(' and ') + '.',
+      message: 'Deu ruim! ' + errMsg.join(' and ') + '.',
       isFailed: true
     });
   }
